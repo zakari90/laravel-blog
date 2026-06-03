@@ -1,58 +1,84 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# DevInsight - Minimalist Laravel Blog
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+DevInsight is a clean, modern, and minimalist blogging platform built using **Laravel**, **Blade templates**, **Tailwind CSS**, and **SQLite**. It features user authentication, role-based authorization, post view counters, and a toggleable like/dislike rating system.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 👤 Role-Based Authorization
+The platform defines three roles with specific access levels:
+- **Admin**: Can view, edit, or delete any post and manage categories.
+- **Author**: Can write new posts and edit or delete their own posts.
+- **Reader**: Can sign up, log in, view posts, and interact with the feedback system.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 👍 Reaction System & View Counter
+- **Likes & Dislikes**: Authenticated users can toggle a single Like or Dislike per article. If they already liked an article, clicking Like again removes it. Clicking Dislike switches their reaction.
+- **View Counter**: Automatically tracks article engagement by incrementing views on every page load.
+- **Stats Display**: Meta information is displayed dynamically on both the home feed and article details page.
 
-## Learning Laravel
+### 📁 Category Filtering
+- Sidebar displays all categories along with post counts.
+- Clicking a category filters the homepage feed using clean query parameters (`?category_id=X`).
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Installation & Setup
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+Follow these steps to set up the project locally:
 
-## Agentic Development
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/zakari90/laravel-blog.git
+   cd laravel-blog
+   ```
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+2. **Install Composer dependencies:**
+   ```bash
+   composer install
+   ```
 
-```bash
-composer require laravel/boost --dev
+3. **Install npm dependencies & build assets:**
+   ```bash
+   npm install
+   npm run build
+   ```
 
-php artisan boost:install
-```
+4. **Environment Setup:**
+   Copy the example environment file:
+   ```bash
+   cp .env.example .env
+   ```
+   *(Note: The default connection is set to SQLite, which will automatically create and use `database/database.sqlite`)*
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+5. **Generate Application Key:**
+   ```bash
+   php artisan key:generate
+   ```
 
-## Contributing
+6. **Run migrations and seed the database:**
+   ```bash
+   php artisan migrate:fresh --seed
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+7. **Start the local server:**
+   ```bash
+   php artisan serve
+   ```
+   Now navigate to `http://127.0.0.1:8000` in your web browser.
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Seeded Accounts
 
-## Security Vulnerabilities
+For testing the role-based behaviors, the database seeder creates three accounts (all using the password **`password`**):
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- **Admin Account**:
+  - Email: `admin@example.com`
+  - Role: `admin`
+- **Author Account**:
+  - Email: `author@example.com`
+  - Role: `author`
+- **Reader Account**:
+  - Email: `reader@example.com`
+  - Role: `reader`
