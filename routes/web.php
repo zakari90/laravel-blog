@@ -4,9 +4,11 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\PostLikeController;
 
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
 Route::get('/posts/{post:slug}', [PostController::class, 'show'])->name('posts.show');
+Route::post('/posts/{post}/like', [PostLikeController::class, 'store'])->name('posts.like')->middleware('auth');
 
 Route::get('/dashboard', function () {
     return redirect()->route('dashboard.posts.index');

@@ -18,6 +18,10 @@ class PostController extends Controller
         $selectedCategoryId = $request->query('category_id');
         
         $posts = Post::with(['category', 'user'])
+            ->withCount([
+                'likes as likes_count' => function ($query) { $query->where('is_like', true); },
+                'likes as dislikes_count' => function ($query) { $query->where('is_like', false); }
+            ])
             ->latest()
             ->when($selectedCategoryId, function ($query, $selectedCategoryId) {
                 return $query->where('category_id', $selectedCategoryId);
@@ -31,8 +35,20 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
+        $post->increment('views_count');
+
         $categories = Category::withCount('posts')->get();
-        return view('posts.show', compact('post', 'categories'));
+        
+        $post->loadCount([
+            'likes as likes_count' => function ($query) { $query->where('is_like', true); },
+            'likes as dislikes_count' => function ($query) { $query->where('is_like', false); }
+        ]);
+
+        $userReaction = auth()->check()
+            ? \App\Models\Like::where('user_id', auth()->id())->where('post_id', $post->id)->first()
+            : null;
+
+        return view('posts.show', compact('post', 'categories', 'userReaction'));
     }
 
     // Dashboard management listing
@@ -40,12 +56,17 @@ class PostController extends Controller
     {
         $categories = Category::withCount('posts')->get();
         
+        $query = Post::with(['category', 'user'])
+            ->withCount([
+                'likes as likes_count' => function ($query) { $query->where('is_like', true); },
+                'likes as dislikes_count' => function ($query) { $query->where('is_like', false); }
+            ]);
+
         // Admins can see all posts, authors see only their own
         if (auth()->user()->isAdmin()) {
-            $posts = Post::with(['category', 'user'])->latest()->get();
+            $posts = $query->latest()->get();
         } else {
-            $posts = Post::with(['category', 'user'])
-                ->where('user_id', auth()->id())
+            $posts = $query->where('user_id', auth()->id())
                 ->latest()
                 ->get();
         }

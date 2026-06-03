@@ -67,7 +67,27 @@
 
                         <!-- Read More link -->
                         <div class="border-t border-slate-100 pt-4 flex items-center justify-between">
-                            <span class="text-xs text-slate-400 font-medium">Read time: ~3 mins</span>
+                            <div class="flex items-center gap-4 text-xs text-slate-400 font-medium">
+                                <span class="flex items-center gap-1" title="Views">
+                                    <svg class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                    </svg>
+                                    <span>{{ $post->views_count }}</span>
+                                </span>
+                                <span class="flex items-center gap-1" title="Likes">
+                                    <svg class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3zM7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/>
+                                    </svg>
+                                    <span>{{ $post->likes_count }}</span>
+                                </span>
+                                <span class="flex items-center gap-1" title="Dislikes">
+                                    <svg class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 15v4a3 3 0 003 3l4-9V2H5.72a2 2 0 00-2 1.7l-1.38 9a2 2 0 002 2.3zm7-13h3a2 2 0 012 2v7a2 2 0 01-2 2h-3"/>
+                                    </svg>
+                                    <span>{{ $post->dislikes_count }}</span>
+                                </span>
+                            </div>
                             <a href="{{ route('posts.show', $post) }}" class="inline-flex items-center gap-1 text-sm font-semibold text-indigo-600 hover:text-indigo-800 transition-colors">
                                 <span>Read full article</span>
                                 <svg class="h-4 w-4 transform group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

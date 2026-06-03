@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    protected $fillable = ['user_id', 'category_id', 'title', 'slug', 'excerpt', 'body'];
+    protected $fillable = ['user_id', 'category_id', 'title', 'slug', 'excerpt', 'body', 'views_count'];
 
     public function category()
     {
@@ -16,5 +16,10 @@ class Post extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
     }
 }

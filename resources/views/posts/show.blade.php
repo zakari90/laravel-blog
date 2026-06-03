@@ -26,6 +26,14 @@
                 @endif
                 <span class="text-slate-300">•</span>
                 <span class="text-slate-400 font-medium">{{ $post->created_at->format('F d, Y') }}</span>
+                <span class="text-slate-300">•</span>
+                <span class="text-slate-400 font-medium inline-flex items-center gap-1">
+                    <svg class="h-3.5 w-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    </svg>
+                    <span>{{ $post->views_count }} views</span>
+                </span>
             </div>
 
             <!-- Title -->
@@ -47,6 +55,38 @@
                         <p>{!! nl2br(e($paragraph)) !!}</p>
                     @endif
                 @endforeach
+            </div>
+
+            <!-- Like / Dislike voting section -->
+            <div class="border-t border-slate-100 pt-6 mt-8 flex items-center justify-between">
+                <span class="text-sm font-semibold text-slate-500">Was this article helpful?</span>
+                <div class="flex items-center gap-3">
+                    <!-- Like Form -->
+                    <form action="{{ route('posts.like', $post) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="type" value="like">
+                        <button type="submit" 
+                                class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold border transition @auth {{ $userReaction && $userReaction->is_like === true ? 'bg-indigo-50 border-indigo-200 text-indigo-700 hover:bg-indigo-100' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50' }} @else bg-white border-slate-200 text-slate-600 hover:bg-slate-50 @endauth">
+                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3zM7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/>
+                            </svg>
+                            <span>Helpful ({{ $post->likes_count }})</span>
+                        </button>
+                    </form>
+
+                    <!-- Dislike Form -->
+                    <form action="{{ route('posts.like', $post) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="type" value="dislike">
+                        <button type="submit" 
+                                class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold border transition @auth {{ $userReaction && $userReaction->is_like === false ? 'bg-rose-50 border-rose-200 text-rose-700 hover:bg-rose-100' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50' }} @else bg-white border-slate-200 text-slate-600 hover:bg-slate-50 @endauth">
+                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10 15v4a3 3 0 003 3l4-9V2H5.72a2 2 0 00-2 1.7l-1.38 9a2 2 0 002 2.3zm7-13h3a2 2 0 012 2v7a2 2 0 01-2 2h-3"/>
+                            </svg>
+                            <span>Not Helpful ({{ $post->dislikes_count }})</span>
+                        </button>
+                    </form>
+                </div>
             </div>
         </article>
 
