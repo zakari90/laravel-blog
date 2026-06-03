@@ -96,8 +96,32 @@ class DatabaseSeeder extends Seeder
             ],
         ];
 
+        // 3. Create users with specific roles
+        $adminUser = User::factory()->create([
+            'name' => 'Admin User',
+            'email' => 'admin@example.com',
+            'role' => 'admin',
+            'password' => bcrypt('password'),
+        ]);
+
+        $authorUser = User::factory()->create([
+            'name' => 'Author User',
+            'email' => 'author@example.com',
+            'role' => 'author',
+            'password' => bcrypt('password'),
+        ]);
+
+        $readerUser = User::factory()->create([
+            'name' => 'Reader User',
+            'email' => 'reader@example.com',
+            'role' => 'reader',
+            'password' => bcrypt('password'),
+        ]);
+
+        // 4. Create posts and associate them with the Author
         foreach ($postsData as $postItem) {
             Post::create([
+                'user_id' => $authorUser->id,
                 'category_id' => $categories[$postItem['category_index']]->id,
                 'title' => $postItem['title'],
                 'slug' => Str::slug($postItem['title']),
@@ -105,11 +129,5 @@ class DatabaseSeeder extends Seeder
                 'body' => $postItem['body'],
             ]);
         }
-
-        // 3. Create a test user
-        User::factory()->create([
-            'name' => 'Author User',
-            'email' => 'author@example.com',
-        ]);
     }
 }

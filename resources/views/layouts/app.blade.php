@@ -39,9 +39,35 @@
                 <span class="h-4 w-px bg-slate-200"></span>
                 <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 hidden sm:inline-block">Laravel 13 Blog Demo</span>
             </div>
-            <nav class="flex items-center gap-5">
-                <a href="{{ route('posts.index') }}" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">Home</a>
-                <a href="https://laravel.com" target="_blank" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">Laravel Docs</a>
+            
+            <nav class="flex items-center gap-4">
+                <a href="{{ route('posts.index') }}" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors mr-2">Home</a>
+                
+                @auth
+                    <!-- Authenticated User Profile & Links -->
+                    <span class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-100 text-slate-600">
+                        {{ auth()->user()->name }} ({{ ucfirst(auth()->user()->role) }})
+                    </span>
+
+                    @if(auth()->user()->isAdmin() || auth()->user()->isAuthor())
+                        <a href="{{ route('dashboard.posts.index') }}" class="text-sm font-bold text-indigo-600 hover:text-indigo-800 transition-colors">
+                            Dashboard
+                        </a>
+                    @endif
+
+                    <form method="POST" action="{{ route('logout') }}" class="inline">
+                        @csrf
+                        <button type="submit" class="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors hover:underline">
+                            Log Out
+                        </button>
+                    </form>
+                @else
+                    <!-- Guest Links -->
+                    <a href="{{ route('login') }}" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">Log in</a>
+                    <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-3.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-lg transition-colors shadow-sm">
+                        Register
+                    </a>
+                @endauth
             </nav>
         </div>
     </header>
