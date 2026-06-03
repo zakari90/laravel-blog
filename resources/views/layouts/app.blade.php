@@ -36,8 +36,6 @@
                 <a href="{{ route('posts.index') }}" class="font-display font-extrabold text-xl tracking-tight text-indigo-600 hover:text-indigo-700 transition duration-150">
                     Dev<span class="text-slate-800">Insight</span>
                 </a>
-                <span class="h-4 w-px bg-slate-200"></span>
-                <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 hidden sm:inline-block">Laravel 13 Blog Demo</span>
             </div>
             
             <nav class="flex items-center gap-4">
